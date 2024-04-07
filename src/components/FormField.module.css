@@ -1,0 +1,20 @@
+/* FormField.module.css */
+.formField {
+  margin-bottom: var(--spacingVerticalS);
+}
+
+.label {
+  margin-bottom: var(--spacingVerticalS);
+}
+
+.helper-text {
+  color: orange;
+}
+
+.text {
+  margin-top: var(--spacingVerticalS);
+}
+
+.error {
+  color: red;
+}
