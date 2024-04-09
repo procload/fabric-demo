@@ -1,11 +1,17 @@
 /* FormField.module.css */
 .formField {
-  margin-bottom: var(--spacingVerticalL);
+  margin-bottom: var(--spacingVerticalXL);
   max-width: 320px;
 }
 
 .label {
   margin-bottom: var(--spacingVerticalS);
+  display: flex;
+  align-items: center;
+}
+
+svg {
+  margin-left: var(--spacingHorizontalXS);
 }
 
 .helper-text {

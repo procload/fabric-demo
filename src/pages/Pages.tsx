@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Checkbox,
@@ -12,7 +13,6 @@ import {
 } from "@fabric-msft/fluent-react";
 import FormField from "../components/formField";
 import { DatePicker } from "@fluentui/react-datepicker-compat";
-import type { DatePickerProps } from "@fluentui/react-datepicker-compat";
 
 import couchPotatoImage from "../mountain.png";
 import adventurerImage from "../mountain.png";
@@ -21,15 +21,15 @@ import loneWolfImage from "../dog.png";
 
 import {
   Dropdown,
-  makeStyles,
   CardHeader,
   Option,
-  shorthands,
   Card,
   useId,
 } from "@fluentui/react-components";
 
-const Behaviors: React.FC = () => {
+import { TeachingBubble } from "@fabric-msft/fabric-react";
+
+const Identity: React.FC = () => {
   const dropdownId = useId("dropdown-default");
   const options = [
     "Cat",
@@ -46,9 +46,6 @@ const Behaviors: React.FC = () => {
 
   return (
     <div>
-      <Text>
-        <h3>Behaviors</h3>
-      </Text>
       <div className="pet-photo">
         <Label required weight="semibold">
           Pet photo
@@ -205,6 +202,7 @@ const Behaviors: React.FC = () => {
         required
         warningText="This is a warning"
         errorText="This is an error"
+        tooltip="Enter your pet's name"
       >
         <TextInput placeholder="Enter a name" />
       </FormField>
@@ -213,11 +211,12 @@ const Behaviors: React.FC = () => {
         label="Nicknames"
         warningText="This is a warning"
         errorText="This is an error"
+        tooltip="Enter your pet's nicknames"
       >
         <TextInput placeholder="Enter Nicknames" />
       </FormField>
       <FormField
-        id="best-pet-field"
+        id="breed-field"
         label="Breed"
         warningText="This is a warning"
         errorText="This is an error"
@@ -231,10 +230,11 @@ const Behaviors: React.FC = () => {
         </Dropdown>
       </FormField>
       <FormField
-        id="best-pet-field"
+        id="date-field"
         label="Breed"
         warningText="This is a warning"
         errorText="This is an error"
+        tooltip="Select your pet's birthdate"
       >
         <DatePicker placeholder="Select a date..." />
       </FormField>
@@ -260,7 +260,7 @@ const Training: React.FC = () => {
   const performanceOptions = ["Comedic", "Quick"];
   return (
     <div>
-      <Text size="400" weight="semibold">
+      <Text block size="400" weight="bold">
         <h3>Training Preferences</h3>
       </Text>
       <FormField
@@ -286,6 +286,7 @@ const Training: React.FC = () => {
         label="Reward Type"
         warningText="This is a warning"
         errorText="This is an error"
+        tooltip="Select the type of reward you want to give your pet"
       >
         <RadioGroup orientation="vertical">
           <Radio value="treats">Treats</Radio>
@@ -566,10 +567,66 @@ const Pedigree: React.FC = () => {
 };
 
 const Personality: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleBubble = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div>
-      <Text size="400" weight="semibold">
-        <h3>Personality Type</h3>
+      <TeachingBubble open={isOpen} size="medium" target="#personality-heading">
+        <Button
+          slot="close"
+          aria-label="close button"
+          icon-only
+          appearance="transparent"
+          size="small"
+          className="toolbar-button close-btn"
+          onClick={toggleBubble}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M6 6L18 18"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </Button>
+        <div slot="heading" role="heading">
+          <Text size="400" weight="semibold" block>
+            <span>Choose your dog’s personality type</span>
+          </Text>
+        </div>
+        <div id="teaching-bubble-content">
+          <div>
+            <span>
+              We’ll automatically configure the right settings for your dog’s
+              personality based on the archetype.
+            </span>
+          </div>
+        </div>
+        <div className="teaching-footer" slot="footer">
+          <Button onClick={toggleBubble}>Got it</Button>
+        </div>
+      </TeachingBubble>
+
+      <Text block size="400" weight="bold">
+        <h3 id="personality-heading">Personality Type</h3>
       </Text>
       <Card className="personality-card">
         <CardHeader
@@ -647,4 +704,12 @@ const Personality: React.FC = () => {
   );
 };
 
-export { Behaviors, Training, Pedigree, Personality };
+const Default: React.FC = () => {
+  return (
+    <div>
+      <Text>Default</Text>
+    </div>
+  );
+};
+
+export { Identity, Training, Pedigree, Personality, Default };

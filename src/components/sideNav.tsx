@@ -1,4 +1,4 @@
-import { Accordion, AccordionItem } from "@fabric-msft/fluent-react";
+import { Accordion, AccordionItem, Text } from "@fabric-msft/fluent-react";
 import {
   ChevronDown16Regular,
   ChevronUp16Regular,
@@ -39,7 +39,9 @@ const SideNav: React.FC<SideNavProps> = ({
   };
   return (
     <div className="side-nav">
-      <h3>AI Dog</h3>
+      <Text block weight="bold" size="600">
+        <h3>AI Dog</h3>
+      </Text>
       <Accordion defaultExpanded={navItems.map((item) => item.id)}>
         {navItems.map((navItem, index) => (
           <AccordionItem

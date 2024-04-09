@@ -7,9 +7,9 @@ import {
   fabricDarkTheme,
 } from "@fabric-msft/theme";
 
+import { webLightTheme, teamsLightTheme } from "@fluentui/react-components";
+
 import {
-  Add20Filled,
-  AccessTime20Filled,
   AnimalDog20Filled,
   OrganizationHorizontal20Regular,
   StethoscopeRegular,
@@ -18,13 +18,7 @@ import {
   HatGraduation20Regular,
 } from "@fluentui/react-icons";
 import {
-  AccordionItem,
-  Accordion,
-  Badge,
-  Checkbox,
   Button,
-  Text,
-  TextInput,
   Tabs,
   Tab,
   TabPanel,
@@ -34,25 +28,27 @@ import {
   RadioGroup,
   Divider,
   Switch,
-  ToggleButton,
-  ProgressBar,
 } from "@fabric-msft/fluent-react";
 
 import FormField from "./components/formField";
 import SideNav from "./components/sideNav";
 import Card from "./components/Card";
 
-import { Behaviors, Training, Pedigree, Personality } from "./pages/Pages";
+import {
+  Identity,
+  Training,
+  Pedigree,
+  Personality,
+  Default,
+} from "./pages/Pages";
 
-import { TeachingBubble } from "@fabric-msft/fabric-react";
-
-setTheme(fabricLightTheme);
+setTheme(teamsLightTheme);
 
 const navItems = [
   {
     heading: "General",
     items: [
-      { text: "Behaviors", isActive: true, icon: AnimalDog20Filled },
+      { text: "Identity", isActive: true, icon: AnimalDog20Filled },
       { text: "Pedigree", icon: OrganizationHorizontal20Regular },
       { text: "Health", icon: StethoscopeRegular },
     ],
@@ -92,26 +88,16 @@ const navItems = [
 ];
 
 function App() {
-  let pageComponent;
+  const pageMapping = {
+    Identity: <Identity />,
+    Pedigree: <Pedigree />,
+    Training: <Training />,
+    "Personality Type": <Personality />,
+    Default: <Default />,
+  };
 
-  const [isOpen, setIsOpen] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [currentPage, setCurrentPage] = useState("Behaviors");
-
-  switch (currentPage) {
-    case "Behaviors":
-      pageComponent = <Behaviors />;
-      break;
-    case "Pedigree":
-      pageComponent = <Pedigree />;
-      break;
-    case "Health":
-      pageComponent = <Personality />;
-      break;
-    // Add more cases as needed
-    default:
-      pageComponent = <div>Select a page from the side navigation</div>;
-  }
+  const [currentPage, setCurrentPage] = useState("Identity");
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode); // Toggle the theme state
@@ -125,58 +111,8 @@ function App() {
     }
   };
 
-  // Toggle function
-  const toggleBubble = () => {
-    setIsOpen(!isOpen); // Toggle the state
-    console.log("Toggled");
-  };
-
   return (
     <>
-      <TeachingBubble open={isOpen} size="medium" target="secondTab">
-        <Button
-          slot="close"
-          aria-label="close button"
-          icon-only
-          appearance="transparent"
-          size="small"
-          className="toolbar-button close-btn"
-          onClick={toggleBubble}
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M18 6L6 18"
-              stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </Button>
-        <div slot="heading" role="heading">
-          <Text size="500" block>
-            <span>Frequently Asked Questions</span>
-          </Text>
-        </div>
-        <div id="teaching-bubble-content">
-          <div>
-            <span>Order within the next 5 minutes to get free delivery!</span>
-          </div>
-        </div>
-      </TeachingBubble>
       <div className="container">
         <div className="sidebar">
           <SideNav
@@ -198,27 +134,11 @@ function App() {
             </Tab>
 
             <TabPanel id="firstTabPanel">
-              {currentPage === "Behaviors" && <Behaviors />}
-              {currentPage === "Pedigree" && <Pedigree />}
-              {currentPage === "Personality Type" && <Personality />}
-              {currentPage === "Training" && <Training />}
+              {pageMapping[currentPage as keyof typeof pageMapping] || (
+                <Default />
+              )}
             </TabPanel>
-            <TabPanel id="secondTabPanel">
-              <RadioGroup className="food-options">
-                <Label id="label-1" slot="label">
-                  Pick your food
-                </Label>
-                <Radio value="meatballs">Meteor Meatballs</Radio>
-                <Radio value="pizza">Pizza Quasars</Radio>
-                <Radio value="cupcakes">Cosmic Cupcakes</Radio>
-                <Radio value="risotto">Rocket Fuel Risotto</Radio>
-              </RadioGroup>
-              <Label>How many would you like?</Label>
-              <Slider max="100" step="10"></Slider>
-              <Switch>Delivery</Switch>
-              <Divider className="divider" />
-              <Button appearance="primary">Order</Button>
-            </TabPanel>
+            <TabPanel id="secondTabPanel"></TabPanel>
           </Tabs>
         </div>
       </div>

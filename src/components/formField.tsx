@@ -1,6 +1,8 @@
 import React from "react";
-import { Label, TextInput, Text } from "@fabric-msft/fluent-react";
+import { Button, Label, Text } from "@fabric-msft/fluent-react";
+import { Tooltip } from "@fluentui/react-components";
 import styles from "./FormField.module.css";
+import { Info16Regular } from "@fluentui/react-icons";
 
 interface FormFieldProps {
   label?: string;
@@ -11,6 +13,7 @@ interface FormFieldProps {
   errorText?: string;
   children: React.ReactNode;
   id?: string;
+  tooltip?: string;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -22,11 +25,17 @@ const FormField: React.FC<FormFieldProps> = ({
   errorText,
   children,
   id,
+  tooltip,
 }) => (
   <div id={id} className={styles.formField}>
     {label && (
       <Label required={required} weight="semibold" className={styles.label}>
         {label}
+        {tooltip && (
+          <Tooltip content={tooltip} relationship="label">
+            <Info16Regular />
+          </Tooltip>
+        )}
       </Label>
     )}
     {children}
