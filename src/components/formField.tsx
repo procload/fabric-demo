@@ -6,6 +6,7 @@ interface FormFieldProps {
   label?: string;
   isWarning?: boolean;
   isError?: boolean;
+  required?: boolean;
   warningText?: string;
   errorText?: string;
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const FormField: React.FC<FormFieldProps> = ({
   label,
   isWarning,
   isError,
+  required,
   warningText,
   errorText,
   children,
@@ -23,7 +25,7 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => (
   <div id={id} className={styles.formField}>
     {label && (
-      <Label weight="semibold" className={styles.label}>
+      <Label required={required} weight="semibold" className={styles.label}>
         {label}
       </Label>
     )}

@@ -1,6 +1,7 @@
 /* FormField.module.css */
 .formField {
-  margin-bottom: var(--spacingVerticalS);
+  margin-bottom: var(--spacingVerticalL);
+  max-width: 320px;
 }
 
 .label {

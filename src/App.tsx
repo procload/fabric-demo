@@ -10,8 +10,12 @@ import {
 import {
   Add20Filled,
   AccessTime20Filled,
-  Add16Regular,
-  Add20Regular,
+  AnimalDog20Filled,
+  OrganizationHorizontal20Regular,
+  StethoscopeRegular,
+  Home20Regular,
+  TreeEvergreen20Regular,
+  HatGraduation20Regular,
 } from "@fluentui/react-icons";
 import {
   AccordionItem,
@@ -38,32 +42,76 @@ import FormField from "./components/formField";
 import SideNav from "./components/sideNav";
 import Card from "./components/Card";
 
+import { Behaviors, Training, Pedigree, Personality } from "./pages/Pages";
+
 import { TeachingBubble } from "@fabric-msft/fabric-react";
 
 setTheme(fabricLightTheme);
 
 const navItems = [
   {
-    heading: "System Settings",
+    heading: "General",
     items: [
-      { text: "Tenant Settings", isActive: true, icon: AccessTime20Filled },
-      { text: "Other Settings", icon: Add20Filled },
-      { text: "More Settings", icon: AccessTime20Filled },
+      { text: "Behaviors", isActive: true, icon: AnimalDog20Filled },
+      { text: "Pedigree", icon: OrganizationHorizontal20Regular },
+      { text: "Health", icon: StethoscopeRegular },
     ],
   },
   {
-    heading: "Foobar",
+    heading: "Behaviors",
     items: [
-      { text: "Tenant Settings", isActive: true, icon: AccessTime20Filled },
-      { text: "Other Settings", icon: Add20Filled },
-      { text: "More Settings", icon: AccessTime20Filled },
+      { text: "Household", icon: Home20Regular },
+      { text: "Outdoors", icon: TreeEvergreen20Regular },
+      { text: "Training", icon: HatGraduation20Regular },
+    ],
+  },
+  {
+    heading: "Personality",
+    items: [
+      { text: "Personality Type", icon: Home20Regular },
+      { text: "Emotions", icon: TreeEvergreen20Regular },
+      { text: "Habit", icon: HatGraduation20Regular },
+    ],
+  },
+  {
+    heading: "Appearance",
+    items: [
+      { text: "Behaviors", icon: AnimalDog20Filled },
+      { text: "Pedigree", icon: OrganizationHorizontal20Regular },
+      { text: "Health", icon: StethoscopeRegular },
+    ],
+  },
+  {
+    heading: "Vocalization",
+    items: [
+      { text: "Household", icon: Home20Regular },
+      { text: "Outdoors", icon: TreeEvergreen20Regular },
+      { text: "Training", icon: HatGraduation20Regular },
     ],
   },
 ];
 
 function App() {
+  let pageComponent;
+
   const [isOpen, setIsOpen] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [currentPage, setCurrentPage] = useState("Behaviors");
+
+  switch (currentPage) {
+    case "Behaviors":
+      pageComponent = <Behaviors />;
+      break;
+    case "Pedigree":
+      pageComponent = <Pedigree />;
+      break;
+    case "Health":
+      pageComponent = <Personality />;
+      break;
+    // Add more cases as needed
+    default:
+      pageComponent = <div>Select a page from the side navigation</div>;
+  }
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode); // Toggle the theme state
@@ -131,93 +179,29 @@ function App() {
       </TeachingBubble>
       <div className="container">
         <div className="sidebar">
-          <SideNav navItems={navItems} />
+          <SideNav
+            navItems={navItems.map((item, index) => ({
+              ...item,
+              id: `navItem-${index}`,
+            }))}
+            onNavItemSelect={setCurrentPage}
+            currentPage={currentPage}
+          />
         </div>
         <div className="content">
           <Tabs>
             <Tab role="tab" id="firstTab">
-              FAQ
+              Basic
             </Tab>
             <Tab role="tab" id="secondTab">
-              Order Food
-            </Tab>
-            <Tab role="tab" id="thirdTab">
-              Order Status
+              Advanced
             </Tab>
 
             <TabPanel id="firstTabPanel">
-              <Card>
-                <Accordion>
-                  <AccordionItem block expand-icon-position="end" size="large">
-                    <Badge color="important" iconPosition="start">
-                      Important
-                    </Badge>
-                    <ToggleButton iconOnly size="large">
-                      <span>
-                        <Add20Filled />
-                      </span>
-                    </ToggleButton>
-                    <span slot="heading">Form Fields</span>
-                    <FormField
-                      id="first-name-field"
-                      label="First Name"
-                      isWarning={true}
-                      isError={false}
-                      warningText="This is a warning"
-                      errorText="This is an error"
-                    >
-                      <TextInput placeholder="John" />
-                    </FormField>
-
-                    <FormField
-                      isWarning={true}
-                      isError={false}
-                      warningText="This is a warning"
-                      errorText="This is an error"
-                    >
-                      <Checkbox>This is a label</Checkbox>
-                    </FormField>
-                    <RadioGroup className="food-options">
-                      <Label id="label-1" slot="label">
-                        Pick your food
-                      </Label>
-                      <Radio value="meatballs">Meteor Meatballs</Radio>
-                      <Radio value="pizza">Pizza Quasars</Radio>
-                      <Radio value="cupcakes">Cosmic Cupcakes</Radio>
-                      <Radio value="risotto">Rocket Fuel Risotto</Radio>
-                    </RadioGroup>
-                    <Label>How many would you like?</Label>
-                    <Slider max="100" step="10"></Slider>
-                    <Switch>Delivery</Switch>
-                    <Divider className="divider" />
-                    <Button appearance="primary">Order</Button>
-                  </AccordionItem>
-                  <AccordionItem block expand-icon-position="end" size="large">
-                    <span slot="heading">Form Fields 2</span>
-                    <RadioGroup className="food-options">
-                      <Label id="label-1" slot="label">
-                        Pick your food
-                      </Label>
-                      <Radio value="meatballs">Meteor Meatballs</Radio>
-                      <Radio value="pizza">Pizza Quasars</Radio>
-                      <Radio value="cupcakes">Cosmic Cupcakes</Radio>
-                      <Radio value="risotto">Rocket Fuel Risotto</Radio>
-                    </RadioGroup>
-                  </AccordionItem>
-                  <AccordionItem block expand-icon-position="end" size="large">
-                    <span slot="heading">Form Fields 3</span>
-                    <RadioGroup className="food-options">
-                      <Label id="label-1" slot="label">
-                        Pick your food
-                      </Label>
-                      <Radio value="meatballs">Meteor Meatballs</Radio>
-                      <Radio value="pizza">Pizza Quasars</Radio>
-                      <Radio value="cupcakes">Cosmic Cupcakes</Radio>
-                      <Radio value="risotto">Rocket Fuel Risotto</Radio>
-                    </RadioGroup>
-                  </AccordionItem>
-                </Accordion>
-              </Card>
+              {currentPage === "Behaviors" && <Behaviors />}
+              {currentPage === "Pedigree" && <Pedigree />}
+              {currentPage === "Personality Type" && <Personality />}
+              {currentPage === "Training" && <Training />}
             </TabPanel>
             <TabPanel id="secondTabPanel">
               <RadioGroup className="food-options">
@@ -235,7 +219,6 @@ function App() {
               <Divider className="divider" />
               <Button appearance="primary">Order</Button>
             </TabPanel>
-            <TabPanel id="secondTabPanel">foobarfoo</TabPanel>
           </Tabs>
         </div>
       </div>
